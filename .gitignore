@@ -1,0 +1,9 @@
+*.bin
+/pkg
+/bin
+/output
+/log
+.DS_Store
+*\~
+\#*
+.\#*
