@@ -50,11 +50,6 @@ func TestSingleLink_InsertNext(t *testing.T) {
 }
 
 func TestSingleLink_RemoveNext(t *testing.T) {
-	type fields struct {
-		size int
-		head *SingleLinkNode
-		tail *SingleLinkNode
-	}
 	type args struct {
 		node *SingleLinkNode
 	}
@@ -70,11 +65,10 @@ func TestSingleLink_RemoveNext(t *testing.T) {
 	}
 
 	tests := []struct {
-		name    string
-		fields  *SingleLink
-		args    args
-		want    int
-		wantErr bool
+		name   string
+		fields *SingleLink
+		args   args
+		want   int
 	}{
 		// TODO: Add test cases.
 		{

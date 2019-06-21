@@ -41,6 +41,23 @@ func makeDoubleLinkWithArray(data []int) *DoubleLink {
 	}
 }
 
+func makeCircularSingleLinkWithArray(data []int) *CircularSingleLink {
+	dummy := new(CircularSingleLinkNode)
+	p := dummy
+	for i := range data {
+		newNode := &CircularSingleLinkNode{
+			Val: data[i],
+		}
+		p.Next = newNode
+		p = p.Next
+	}
+	p.Next = dummy.Next
+	return &CircularSingleLink{
+		size: len(data),
+		head: dummy.Next,
+	}
+}
+
 func (sl *SingleLink) String() string {
 	return fmt.Sprintf("{\n"+
 		"Size: %d,\n"+
@@ -80,6 +97,35 @@ func (dln *DoubleLinkNode) String() string {
 		dummy = dummy.Next
 	}
 	result = result + "nil"
+
+	return fmt.Sprintf(result, temp...)
+}
+
+func (csl *CircularSingleLink) String() string {
+	return fmt.Sprintf("{\n"+
+		"Size: %d,\n"+
+		"Head: %s,\n"+
+		"}\n", csl.size, csl.head)
+}
+
+func (csln *CircularSingleLinkNode) String() string {
+	var result string
+	var temp []interface{}
+	dummy := csln
+	count := 0
+	for {
+		if count > 0 && dummy == csln {
+			break
+		}
+		if count == 0 {
+			count++
+		}
+
+		result = result + "%d -> "
+		temp = append(temp, dummy.Val)
+		dummy = dummy.Next
+	}
+	result = result + "head"
 
 	return fmt.Sprintf(result, temp...)
 }
