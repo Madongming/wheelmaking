@@ -10,6 +10,17 @@ func TestDoubleLink_InsertNext(t *testing.T) {
 		node *DoubleLinkNode
 		data int
 	}
+	dl := makeDoubleLinkWithArray([]int{1, 2, 4, 5})
+	var addNode *DoubleLinkNode
+	dummy := dl.head
+	for dummy != nil {
+		if dummy.Val == 2 {
+			addNode = dummy
+			break
+		}
+		dummy = dummy.Next
+	}
+
 	tests := []struct {
 		name string
 		args args
@@ -18,16 +29,13 @@ func TestDoubleLink_InsertNext(t *testing.T) {
 		{
 			name: "Dlink insert next.",
 			args: args{
-				node: &DoubleLinkNode{
-					Val: 2,
-				},
+				node: addNode,
 				data: 3,
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			dl := makeDoubleLinkWithArray([]int{1, 2, 4, 5})
 			err := dl.InsertNext(tt.args.node, tt.args.data)
 			if err != nil {
 				t.Errorf("DoubleLink.InsertNext() error = %v.", err)
@@ -46,6 +54,17 @@ func TestDoubleLink_InsertPrev(t *testing.T) {
 		node *DoubleLinkNode
 		data int
 	}
+	dl := makeDoubleLinkWithArray([]int{1, 3, 4, 5})
+	var addNode *DoubleLinkNode
+	dummy := dl.head
+	for dummy != nil {
+		if dummy.Val == 3 {
+			addNode = dummy
+			break
+		}
+		dummy = dummy.Next
+	}
+
 	tests := []struct {
 		name string
 		args args
@@ -54,16 +73,13 @@ func TestDoubleLink_InsertPrev(t *testing.T) {
 		{
 			name: "Dlink insert next.",
 			args: args{
-				node: &DoubleLinkNode{
-					Val: 3,
-				},
+				node: addNode,
 				data: 2,
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			dl := makeDoubleLinkWithArray([]int{1, 3, 4, 5})
 			err := dl.InsertPrev(tt.args.node, tt.args.data)
 			if err != nil {
 				t.Errorf("DoubleLink.InsertNext() error = %v", err)
@@ -81,6 +97,17 @@ func TestDoubleLink_Remove(t *testing.T) {
 	type args struct {
 		node *DoubleLinkNode
 	}
+	dl := makeDoubleLinkWithArray([]int{1, 2, 3, 4, 5})
+	var addNode *DoubleLinkNode
+	dummy := dl.head
+	for dummy != nil {
+		if dummy.Val == 3 {
+			addNode = dummy
+			break
+		}
+		dummy = dummy.Next
+	}
+
 	tests := []struct {
 		name string
 		args args
@@ -90,16 +117,13 @@ func TestDoubleLink_Remove(t *testing.T) {
 		{
 			name: "Delete a node.",
 			args: args{
-				node: &DoubleLinkNode{
-					Val: 3,
-				},
+				node: addNode,
 			},
 			want: 3,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			dl := makeDoubleLinkWithArray([]int{1, 2, 3, 4, 5})
 			t.Logf("Old double link: %s", dl.head)
 			got, err := dl.Remove(tt.args.node)
 			if err != nil {

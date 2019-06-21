@@ -16,47 +16,28 @@ func NewSingleLink() *SingleLink {
 	return new(SingleLink)
 }
 
+// node为链表中的一个节点，在其之后插入数据，如果node为空表示在头节点前插入
 func (sl *SingleLink) InsertNext(node *SingleLinkNode, data int) error {
-	// 链表为空，选择点不为空，一定为异常
-	if sl.size == 0 && node != nil {
-		return ERROR_DOES_NOT_EXIST
-	}
-
 	// 加入的点
 	newNode := &SingleLinkNode{
 		Val: data,
 	}
 
-	if sl.size == 0 {
-
-		// 链表和node均为空，说明是要向一个空链表中插入数据
+	if node == nil {
+		// node为空，说明是要向头节点之前插入数据
 		sl.head = newNode
-		sl.tail = newNode
-		sl.size++
-		return nil
-	} else if node == nil {
-		// 将数据插入非空链表的头节点前
-		newNode.Next = sl.head
-		sl.head = newNode
-		sl.size++
-		return nil
-	}
-
-	dummy := sl.head
-	for dummy != nil {
-		if dummy.Val == node.Val {
-			newNode.Next = dummy.Next
-			dummy.Next = newNode
-			sl.size++
-
-			if newNode.Next == nil {
-				sl.tail = newNode
-			}
-			return nil
+		if sl.size == 0 {
+			sl.tail = newNode
 		}
-		dummy = dummy.Next
+	} else {
+		newNode.Next = node.Next
+		node.Next = newNode
+		if node.Next == nil {
+			sl.tail = node
+		}
 	}
-	return ERROR_DOES_NOT_EXIST
+	sl.size++
+	return nil
 }
 
 func (sl *SingleLink) RemoveNext(node *SingleLinkNode) (int, error) {
@@ -64,30 +45,27 @@ func (sl *SingleLink) RemoveNext(node *SingleLinkNode) (int, error) {
 		return 0, ERROR_EMPTY_LINK
 	}
 
+	var ret int
 	if node == nil {
 		// 删除头节点
-		ret := sl.head.Val
-		sl.head = sl.head.Next
-		sl.size--
-		return ret, nil
-	}
-
-	dummy := sl.head
-	for dummy != nil {
-		if dummy.Val == node.Val {
-			if dummy.Next == nil {
-				return 0, ERROR_DOES_NOT_EXIST
-			}
-			ret := dummy.Next.Val
-			dummy.Next = dummy.Next.Next
-			if dummy.Next == nil {
-				sl.tail = dummy
-			}
-			return ret, nil
+		if sl.size == 1 {
+			sl.head = nil
+			sl.tail = nil
 		}
-		dummy = dummy.Next
+		ret = sl.head.Val
+		sl.head = sl.head.Next
+	} else {
+		if node.Next == nil {
+			return 0, ERROR_DOES_NOT_EXIST
+		}
+		ret = node.Next.Val
+		node.Next = node.Next.Next
+		if node.Next == nil {
+			sl.tail = node
+		}
 	}
-	return 0, ERROR_DOES_NOT_EXIST
+	sl.size--
+	return ret, nil
 }
 
 func (sl *SingleLink) Size() int {

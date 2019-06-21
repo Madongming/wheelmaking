@@ -10,6 +10,16 @@ func TestSingleLink_InsertNext(t *testing.T) {
 		node *SingleLinkNode
 		data int
 	}
+	sl := makeSingleLinkWithArray([]int{1, 3, 4, 5})
+	var addNode *SingleLinkNode
+	dummy := sl.head
+	for dummy != nil {
+		if dummy.Val == 1 {
+			addNode = dummy
+			break
+		}
+		dummy = dummy.Next
+	}
 	tests := []struct {
 		name string
 		args args
@@ -17,16 +27,13 @@ func TestSingleLink_InsertNext(t *testing.T) {
 		{
 			name: "link insert.",
 			args: args{
-				node: &SingleLinkNode{
-					Val: 1,
-				},
+				node: addNode,
 				data: 2,
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			sl := makeSingleLinkWithArray([]int{1, 3, 4, 5})
 			err := sl.InsertNext(tt.args.node, tt.args.data)
 			if err != nil {
 				t.Errorf("SingleLink.InsertNext() error = %v", err)
@@ -52,6 +59,16 @@ func TestSingleLink_RemoveNext(t *testing.T) {
 		node *SingleLinkNode
 	}
 	sl := makeSingleLinkWithArray([]int{1, 2, 3, 4, 5})
+	var delNode *SingleLinkNode
+	dummy := sl.head
+	for dummy != nil {
+		if dummy.Val == 3 {
+			delNode = dummy
+			break
+		}
+		dummy = dummy.Next
+	}
+
 	tests := []struct {
 		name    string
 		fields  *SingleLink
@@ -64,9 +81,7 @@ func TestSingleLink_RemoveNext(t *testing.T) {
 			name:   "Remove a node.",
 			fields: sl,
 			args: args{
-				node: &SingleLinkNode{
-					Val: 3,
-				},
+				node: delNode,
 			},
 			want: 4,
 		},
