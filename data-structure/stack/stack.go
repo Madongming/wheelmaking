@@ -39,6 +39,9 @@ func (s *Stack) Pop() (int, error) {
 
 	ret := s.head.Val
 	s.head = s.head.Next
+	if s.size == 1 {
+		s.tail = nil
+	}
 	s.size--
 
 	return ret, nil
