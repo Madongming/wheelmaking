@@ -1,5 +1,15 @@
 package queue
 
+import (
+	"sync"
+)
+
+var NodePool = sync.Pool{
+	New: func() interface{} {
+		return new(LinkNode)
+	},
+}
+
 type Queue struct {
 	size int
 	head *LinkNode
@@ -16,9 +26,8 @@ func NewQueue() *Queue {
 }
 
 func (q *Queue) EnQueue(data int) error {
-	newNode := &LinkNode{
-		Val: data,
-	}
+	newNode := NodePool.Get().(*LinkNode)
+	newNode.Val = data
 
 	if q.size == 0 {
 		// 第一个元素
@@ -33,6 +42,7 @@ func (q *Queue) EnQueue(data int) error {
 }
 
 func (q *Queue) DeQueue() (int, error) {
+	rt := q.head
 	if q.size == 0 {
 		return 0, ERROR_QUEUE_IS_EMPTY
 	}
@@ -44,6 +54,11 @@ func (q *Queue) DeQueue() (int, error) {
 		q.tail = nil
 	}
 	q.size--
+
+	rt.Val = 0
+	rt.Next = nil
+	NodePool.Put(rt)
+
 	return ret, nil
 }
 
