@@ -54,3 +54,7 @@ func (q *Queue) Peek() (int, error) {
 
 	return q.head.Val, nil
 }
+
+func (q *Queue) Size() int {
+	return q.size
+}
