@@ -27,7 +27,7 @@ func TestNewQueue(t *testing.T) {
 
 func TestQueue_EnQueue(t *testing.T) {
 	type args struct {
-		data int
+		data interface{}
 	}
 	tests := []struct {
 		name    string
@@ -80,7 +80,7 @@ func TestQueue_EnQueue(t *testing.T) {
 func TestQueue_DeQueue(t *testing.T) {
 	tests := []struct {
 		name    string
-		want    int
+		want    interface{}
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -142,7 +142,7 @@ func TestQueue_Peek(t *testing.T) {
 	tests := []struct {
 		name    string
 		queue   *Queue
-		want    int
+		want    interface{}
 		wantErr bool
 	}{
 		// TODO: Add test cases.

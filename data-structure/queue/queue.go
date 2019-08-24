@@ -17,7 +17,7 @@ type Queue struct {
 }
 
 type LinkNode struct {
-	Val  int
+	Val  interface{}
 	Next *LinkNode
 }
 
@@ -25,7 +25,7 @@ func NewQueue() *Queue {
 	return new(Queue)
 }
 
-func (q *Queue) EnQueue(data int) error {
+func (q *Queue) EnQueue(data interface{}) error {
 	newNode := NodePool.Get().(*LinkNode)
 	newNode.Val = data
 
@@ -41,14 +41,13 @@ func (q *Queue) EnQueue(data int) error {
 	return nil
 }
 
-func (q *Queue) DeQueue() (int, error) {
+func (q *Queue) DeQueue() (interface{}, error) {
 	rt := q.head
 	if q.size == 0 {
 		return 0, ERROR_QUEUE_IS_EMPTY
 	}
 
-	var ret int
-	ret = q.head.Val
+	ret := q.head.Val
 	q.head = q.head.Next
 	if q.size == 1 {
 		q.tail = nil
@@ -62,7 +61,7 @@ func (q *Queue) DeQueue() (int, error) {
 	return ret, nil
 }
 
-func (q *Queue) Peek() (int, error) {
+func (q *Queue) Peek() (interface{}, error) {
 	if q.size == 0 {
 		return 0, ERROR_QUEUE_IS_EMPTY
 	}
